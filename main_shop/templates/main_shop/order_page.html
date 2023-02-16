@@ -1,0 +1,52 @@
+{% extends 'main_shop/base.html' %}
+{% block title %}
+{{ title }}
+{% endblock %}
+{% block content %}
+
+
+<h1 class="display-7 fw-normal">Товари:</h1>
+{% for key, value in multyOrder.items %}
+<div class="d-flex text-muted pt-3">
+    <img height=40 width=38 src="/media/{{value.productPhotoPath}}">
+    <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+            <strong class="text-gray-dark">{{value.productName}}</strong>
+        </div>
+        <span class="d-block">Кількість: {{value.productNumber}}</span>
+    </div>
+</div>
+{% endfor %}
+{% if x is 1 %}
+    <div class="d-flex text-muted pt-3">
+        <img height=40 width=38 src="{{ProdInOrder.product_png.url}}">
+        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+            <div class="d-flex justify-content-between">
+                <strong class="text-gray-dark">{{ProdInOrder.product_name}}</strong>
+            </div>
+            <span class="d-block">Кількість: {{number}}</span>
+        </div>
+    </div>
+{% endif %}
+<form method="POST" action="{% url 'saveorder' %}" style="width:580px">
+    {% csrf_token %}
+    <input type = "hidden" name = "orderInfo" value = "{{SendDict}}" />
+    <input type = "hidden" name = "itemId" value = "{{ProdInOrder.id}}" />
+    <input type = "hidden" name = "NumOfProduct" value = "{{number}}" />
+    <input type = "hidden" name = "username" value = "{{ user.username }}" />
+    
+    <input  required type="text" class="form-control" style="margin-top: 12px;font-size: large;" name="ownname" placeholder="Ім'я">
+    <input  required type="text" class="form-control" style="margin-top: 12px;font-size: large;" name="phone_number"
+        placeholder="+380-093-134-3433">
+    <input  required type="text" class="form-control" style="margin-top: 12px;font-size: large;" name="surname"
+        placeholder="Прізвище">    
+    <input  required type="text" class="form-control" style="margin-top: 12px;font-size: large;" name="index" placeholder="Індекс">
+    <input  required type="email" class="form-control" style="margin-top: 12px;font-size: large;" name="e-mail"
+        placeholder="name@example.com">
+        <input  required type="text" class="form-control" style="margin-top: 12px;font-size: large;" name="comments" placeholder="Коментарі та побажання">
+    <input  required style="background-color:#198754; margin-top:12px" class="w-50 btn btn-primary btn-lg" type="submit"
+        value="Підтвердити замовлення">
+</form>
+
+
+{% endblock %}

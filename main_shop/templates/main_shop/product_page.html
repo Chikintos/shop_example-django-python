@@ -1,0 +1,54 @@
+{% extends 'main_shop\base.html' %}
+{% load static %}
+{% block content%}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">{{product.product_name}}</h3>
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-6">
+                    <div class="white-box text-center"><img height=500 width=430 class='img-responsive'src="{{product.product_png.url}}"></div>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-6">
+                    <h4 class="box-title mt-5">Опис товару</h4>
+                   
+                    <p>{{product.product_description}}</p>
+                    <h4 class="box-title mt-5">Категорія товару</h4>
+                   
+                    <a href="/category/{{product.Category_name.id}}">{{product.Category_name}}</a>
+                    <h2 class="mt-5">
+                        {{product.get_final_price}}грн<small class="text-success">(Знижка {{product.product_discount}}%)</small>
+                    </h2>
+ 
+                    
+                    <a id="order_now_btn" class="btn btn-primary btn-rounded" >Купити зараз</a>       
+                    {% if request.user.is_authenticated %}
+                    <a id='addToBasket' class="btn btn-primary btn-rounded">Додати до кошику</a>
+                    {%endif%}
+                    <div class="form-outline">
+                        <input type="number" value=1 id="typeNumber" min="1" max={{product.get_num}} class="form-control" style=" width:100px;margin-top:10px" >
+                        <label class="form-label"  for="typeNumber">кількість товару</label>
+                    </div>
+            
+       
+                    </ul>
+                </div>
+               
+        </div>
+    </div>
+</div>
+<script>
+document.getElementById("order_now_btn").addEventListener("click", function(){
+    console.log("panhuiam")
+    num=document.getElementById('typeNumber').value
+    location.href = "makeorder/{{product.id}}/"+num;  
+});
+document.getElementById("addToBasket").addEventListener("click", function(){
+    console.log("panhuiam")
+    num=document.getElementById('typeNumber').value
+    location.href = "addToBasket/{{product.id}}/"+num+"/{{user.username}}";  
+});
+
+</script>
+{% endblock %}

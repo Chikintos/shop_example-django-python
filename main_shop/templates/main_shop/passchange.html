@@ -1,0 +1,22 @@
+{% extends 'main_shop/base.html' %}
+{% block title %}
+{{ title }}
+{% endblock %}
+{% block content %}
+
+<div id="logreg-forms" style="width: 50%;">
+    <div class="alert alert-warning center" style="border:1px solid black;">
+        <h3>Редагування паролю користувача</h3>
+    </div>
+  <form method="post" class="container py-5 ">
+  {% csrf_token %}
+  {{form.as_p}}
+  <div class="container" style="display: flex; flex-direction:row;height:70px">
+    <button class="w-100 btn btn-primary btn-lg" style='background:#198754'type="submit">Редагувати</button>
+  </div>
+</form>
+
+
+
+    
+{% endblock %}

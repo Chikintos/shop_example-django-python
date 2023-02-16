@@ -1,0 +1,69 @@
+{% extends 'main_shop\base.html' %}
+{% load static %}
+{% block content%}   
+
+    {% for prd in basketProd%}
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img class='card-img' style="width: 163px; height: 164px;" src="media/{{prd.product_png}}">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+                <input type = "hidden" class='productId' id = "productId" name value = "{{prd.id}}" /> 
+               
+              <h5 class="card-title prdName">{{prd.product_name}}</h5>
+              <p class="card-text num_of_products" id='{{prd.num_of_products}}'>Кількість: {{prd.num_of_products}}</p>
+              <p class="card-text">Ціна: {{prd.product_final_price}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    {% endfor %}
+    <form method="POST" action="/product/makeorder" style="width:580px">
+        {% csrf_token %}      
+        <input type = "hidden" name='prdId' id = "prdId" /> 
+        <input type = "hidden" name='prdnum' id = "prdnum" value = "" /> 
+        <input type = "hidden" name='prdName' id = "prdName" value = "" />     
+        <input type = "hidden" name='product_img_path' id = "product_img_path" value = "" />     
+
+        <input  required style="background-color:#198754; margin-top:12px" class="w-50 btn btn-primary btn-lg" type="submit"
+        value="Підтвердити замовлення">
+    </form>
+    <a href="/user/clearBasket" class="btn btn-danger">clear</a>
+<script>
+    var prdIdArray =[]
+    var prdnumArray =[]
+    var prdnameArray =[]
+    var product_img_path_Array=[]
+    var elements = document.getElementsByClassName('productId');
+    var product_id=document.getElementsByClassName('productId')
+    var product_number=document.getElementsByClassName('num_of_products')
+    var product_name=document.getElementsByClassName("prdName")
+    var product_img_path=document.getElementsByClassName("card-img")
+    console.log(product_img_path)
+    console.log(elements.length)
+var names = '';
+for(var i = 0; i < elements.length; i++) {
+   product_img_path_Array.unshift(product_img_path[i]) 
+   prdIdArray.unshift(product_id[i].defaultValue)
+   prdnumArray.unshift(product_number[i].id)
+   prdnameArray.unshift(product_name[i].innerHTML)   
+   product_img_path_Array.unshift(product_img_path[i].currentSrc.replace('http://127.0.0.1:8000/media/',""))
+  
+   
+}
+
+ 
+console.log(prdIdArray)
+console.log(prdnumArray)
+console.log(prdnameArray)
+console.log(product_img_path_Array)
+
+document.getElementById("prdId").value=prdIdArray
+document.getElementById("prdnum").value=prdnumArray
+document.getElementById("prdName").value=prdnameArray
+document.getElementById("product_img_path").value=product_img_path_Array
+</script>
+    {% endblock %}
